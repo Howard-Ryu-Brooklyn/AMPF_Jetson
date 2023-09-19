@@ -20,7 +20,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, ExecuteProcess
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
@@ -42,6 +42,10 @@ def generate_launch_description():
             get_package_share_directory('turtlebot3_bringup'),
             'param',
             TURTLEBOT3_MODEL + '.yaml'))
+    
+    uwb_config_path=os.path.join(
+            get_package_share_directory('uwb'),
+            'param.yaml')
 
     if LDS_MODEL == 'LDS-01':
         lidar_pkg_dir = LaunchConfiguration(
@@ -98,4 +102,14 @@ def generate_launch_description():
             parameters=[tb3_param_dir],
             arguments=['-i', usb_port],
             output='screen'),
+
+        Node(
+            package='uwb',
+            executable='uwb_node',
+            namespace=AGENT_NAME,
+            parameters=[uwb_config_path],
+            remappings=[("/uwb","/" + AGENT_NAME + "/uwb")],
+            output='screen'),
+
+        ExecuteProcess(cmd=["ros2","run","turtlebot3_bringup","zed_sender.sh"], output="screen")
     ])

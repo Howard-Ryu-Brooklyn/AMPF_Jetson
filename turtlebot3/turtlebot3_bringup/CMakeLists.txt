@@ -25,6 +25,11 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
+install(
+  PROGRAMS zed_sender.sh
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ################################################################################
 # Macro for ament package
 ################################################################################
