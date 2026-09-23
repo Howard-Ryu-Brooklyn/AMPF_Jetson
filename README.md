@@ -1,4 +1,32 @@
-# Jetson-Nano
+# AMPF — Onboard (Jetson Nano)
+
+[AMPF_MATLAB](https://github.com/Howard-Ryu-Brooklyn/AMPF_MATLAB)의 편대 제어 알고리즘을 실제
+Turtlebot3에 태우기 위한 온보드 배포 코드입니다. Jetson Nano가 공식 지원하지 않는 Ubuntu
+20.04·ROS2 Foxy 환경을 직접 구성해 로봇 구동, LiDAR, UWB 센서를 통합했습니다.
+
+## 구성
+
+- **`turtlebot3`, `turtlebot3_msgs`** — Turtlebot3 구동 스택 (burger 모델)
+- **`ld08_driver`** — LiDAR(LD08) 드라이버
+- **`uwb`** — UWB 기반 거리 측정 노드. follower2에는 이 UWB 메시지를 읽는 노드가 추가로 붙어,
+  측정치 결손 시나리오([AMPF_MATLAB](https://github.com/Howard-Ryu-Brooklyn/AMPF_MATLAB) 4장)를
+  실기에서 재현합니다.
+- **`my_interfaces`** — 편대 제어에 필요한 커스텀 메시지 정의 (편대 목표, 상대 위치, UWB 등)
+
+## 관련 저장소
+
+| 저장소 | 역할 |
+|---|---|
+| [AMPF_MATLAB](https://github.com/Howard-Ryu-Brooklyn/AMPF_MATLAB) | 알고리즘 이론·시뮬레이션·학위논문 |
+| [AMPF_GC](https://github.com/Howard-Ryu-Brooklyn/AMPF_GC) | 지상 관제 PC — ROS2 편대 제어기, 비전 센싱 |
+| AMPF_Jetson (이 저장소) | 로봇 온보드 — 구동, LiDAR/UWB |
+
+## 환경
+
+Jetson Nano, Ubuntu 20.04, ROS2 Foxy. 공식 미지원 조합이라 커스텀 이미지가 필요합니다
+([Qengineering/Jetson-Nano-Ubuntu-20-image](https://github.com/Qengineering/Jetson-Nano-Ubuntu-20-image)).
+
+------------------
 
 - Jetson Nano Image
 지상 관제 컴퓨터에 ubuntu 22.04 humble - ros2가 설치되어 있다.
